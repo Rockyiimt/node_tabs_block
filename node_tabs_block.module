@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * Implements hook_theme()
+ */
+function node_tabs_block_theme() {
+	return array(
+		"node_tabs_block" => array(
+			'variables' => array(
+				'node' => NULL,
+				'menu_title' => t("Actions"),
+				'attributes' => NULL
+			),
+			'template' => "node-tabs-block"
+		)
+	);
+}
+
+function template_preprocess_node_tabs_block(&$variables) {
+	$links = menu_local_tasks(0);
+	$variables["tabs"] = $links['tabs']['count'] > 1 ? $links["tabs"]["output"] : '';
+}
+
+/**
+ * Implements hook_block_info()
+ */
+function node_tabs_block_block_info() {
+	$blocks["node-tabs"] = array(
+		'info' => t("Node tabs"),
+		'cache' => DRUPAL_CACHE_PER_PAGE
+	);
+
+	return $blocks;
+}
+
+/**
+ * Implements hook_block_view()
+ */
+function node_tabs_block_block_view($delta = "") {
+	$block = array();
+
+	switch($delta) {
+		case "node-tabs":
+			$node = menu_get_object("node");
+			if(isset($node)) {
+				$block["subject"] = NULL;
+				$block["content"] = array(
+					'#theme' => 'node_tabs_block',
+					'#node' => $node
+				);
+			}
+		break;
+	}
+
+	return $block;
+}

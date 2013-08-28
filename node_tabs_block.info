@@ -1,0 +1,5 @@
+name = Node Tabs Block
+core = 7.x
+description[] = Display node tabs in a block
+
+files[] = node_tabs_block.module
