@@ -54,3 +54,13 @@ function node_tabs_block_block_view($delta = "") {
 
 	return $block;
 }
+
+/**
+ * Function to use the module really easy
+ */
+function block_node_tabs() {
+	$node = menu_get_object("node");
+	if(isset($node)) {
+		return theme("node_tabs_block", array("node" => $node));	
+	}
+}
